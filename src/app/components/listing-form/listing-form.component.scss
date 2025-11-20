@@ -1,0 +1,4 @@
+.images .preview { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: .5rem; }
+.images .img { position: relative; }
+.images .img img { width: 100%; height: 120px; object-fit: cover; border-radius: .5rem; }
+.images .img button { position: absolute; right: .25rem; top: .25rem; }

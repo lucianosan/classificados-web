@@ -1,0 +1,12 @@
+.header { display: flex; gap: 1rem; align-items: center; padding: .75rem 1rem; border-bottom: 1px solid #eee; }
+.brand { font-weight: 600; cursor: pointer; }
+.search { flex: 1; display: flex; gap: .5rem; }
+.actions { display: flex; gap: .5rem; }
+input { width: 100%; padding: .5rem; }
+button { padding: .5rem .75rem; }
+
+.header .category-nav { display: flex; gap: .25rem; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; }
+.header .category-nav .nav-link { padding: .25rem .5rem; border-radius: .25rem; border: 1px solid #dee2e6; background: transparent; color: #495057; }
+.header .category-nav .nav-link:hover { color: #0d6efd; border-color: #0d6efd; }
+.header .category-nav .nav-link.active { background: #0d6efd; color: #fff; border-color: #0d6efd; }
+@media (max-width: 576px) { .header .category-nav { gap: .125rem; } }

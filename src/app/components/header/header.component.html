@@ -1,0 +1,74 @@
+<div class="header-wrap">
+  <div class="container-fluid bg-white border-bottom mb-3 px-xl-5 py-2">
+    <div class="row align-items-center">
+      <div class="col-lg-3 col-md-12">
+        <a class="navbar-brand fw-bold fs-3" href="#" (click)="goHome($event)">Classificados</a>
+      </div>
+      <div class="col-lg-6 col-md-12">
+        <div class="input-group">
+          <input class="form-control" [(ngModel)]="query" placeholder="Buscar...">
+          <button class="btn btn-primary" (click)="onSearch()">Buscar</button>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-12 text-end mt-2 mt-lg-0">
+        <button class="btn btn-outline-primary me-2" (click)="goNew()">Anunciar</button>
+        <button class="btn btn-outline-secondary me-2" (click)="goFav()">Favoritos</button>
+        <a class="btn btn-outline-dark me-2" [routerLink]="['/admin']">Admin</a>
+        <button *ngIf="!(auth.currentUser$ | async); else logged" class="btn btn-success" (click)="goLogin()">Entrar</button>
+        <ng-template #logged>
+          <span class="fw-semibold me-2">{{ (auth.currentUser$ | async)?.name }}</span>
+          <button class="btn btn-outline-danger btn-sm" (click)="auth.logout(); goHome($event)">Sair</button>
+        </ng-template>
+      </div>
+    </div>
+</div>
+
+<div class="bg-light border-top">
+  <div class="container py-1">
+    <ul class="nav category-nav flex-wrap">
+      <li class="nav-item" *ngFor="let c of categories">
+        <a class="nav-link" [routerLink]="['/categoria', toSlug(c)]" routerLinkActive="active">{{ c }}</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+  <div id="headerCarousel" class="carousel slide mb-2" data-bs-ride="carousel" data-bs-interval="5000">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#headerCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner" style="min-height:20vh;">
+      <div class="carousel-item active">
+        <img src="/assets/iphone.jpg" class="d-block w-100" alt="Eletrônicos">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Encontre ofertas incríveis</h5>
+          <p>Eletrônicos, imóveis, autos e mais</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="/assets/apto.jpg" class="d-block w-100" alt="Imóveis">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Imóveis para todos os estilos</h5>
+          <p>Explore oportunidades perto de você</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="/assets/gol.jpg" class="d-block w-100" alt="Autos">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Autos com condições especiais</h5>
+          <p>Compre e venda com segurança</p>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#headerCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Anterior</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#headerCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Próxima</span>
+    </button>
+  </div>
+</div>

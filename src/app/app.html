@@ -1,0 +1,33 @@
+<app-header></app-header>
+<router-outlet></router-outlet>
+<footer class="mt-5 bg-dark text-white pt-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <h5>Classificados</h5>
+        <p class="small">Compre e venda com segurança. Encontre oportunidades em todas as categorias.</p>
+      </div>
+      <div class="col-md-3 mb-3">
+        <h6>Categorias</h6>
+        <!--<ul class="list-unstyled small">
+          <li *ngFor="let c of categories">
+            <a class="text-white text-decoration-none" [routerLink]="['/categoria', toSlug(c)]" routerLinkActive="active">
+              {{ c }}
+            </a>
+          </li>
+        </ul>-->
+      </div>
+      <div class="col-md-3 mb-3">
+        <h6>Contato</h6>
+        <ul class="list-unstyled small">
+          <li>Email: suporte@classificados.com</li>
+          <li>Telefone: (11) 99999-9999</li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-top border-secondary mt-3 py-3 small d-flex justify-content-between">
+      <span>© Classificados</span>
+      <span>Feito com ❤️ no Brasil</span>
+    </div>
+  </div>
+</footer>

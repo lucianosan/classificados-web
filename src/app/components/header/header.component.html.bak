@@ -1,0 +1,15 @@
+<header class="header">
+  <div class="brand" (click)="goHome()">Classificados</div>
+  <div class="search">
+    <input [(ngModel)]="query" placeholder="Buscar..." />
+    <button (click)="onSearch()">Buscar</button>
+  </div>
+  <nav class="actions">
+    <button (click)="goNew()">Anunciar</button>
+    <button (click)="goFav()">Favoritos</button>
+    <button *ngIf="!(auth.currentUser$ | async); else logged" (click)="goLogin()">Entrar</button>
+    <ng-template #logged>
+      <span>{{ (auth.currentUser$ | async)?.name }}</span>
+    </ng-template>
+  </nav>
+</header>

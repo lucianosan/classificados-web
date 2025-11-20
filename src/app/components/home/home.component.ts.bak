@@ -1,0 +1,35 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ListingService } from '../../services/listing.service';
+import { Listing } from '../../models/listing';
+
+@Component({
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.scss',
+  standalone: false
+})
+export class HomeComponent implements OnInit {
+  listings: Listing[] = [];
+  categories: string[] = [];
+  q = '';
+  category = '';
+  city = '';
+  favoritesOnly = false;
+
+  constructor(private listingService: ListingService, private route: ActivatedRoute, private router: Router) {}
+
+  ngOnInit() {
+    this.categories = this.listingService.categories();
+    this.route.data.subscribe(d => { this.favoritesOnly = !!d['favoritesOnly']; });
+    this.route.queryParamMap.subscribe(params => { this.q = params.get('q') || ''; this.refresh(); });
+  }
+
+  refresh() {
+    this.listings = this.listingService.search(this.q, this.category || undefined, this.city || undefined, this.favoritesOnly);
+  }
+
+  applyFilters() { this.refresh(); }
+  view(id: string) { this.router.navigate(['/item', id]); }
+  toggleFav(id: string) { this.listingService.toggleFavorite(id); this.refresh(); }
+  isFav(id: string): boolean { return this.listingService.isFavorite(id); }
+}

@@ -1,0 +1,87 @@
+import { Injectable } from '@angular/core';
+import { Listing } from '../models/listing';
+
+@Injectable({ providedIn: 'root' })
+export class ListingService {
+  private key = 'listings';
+  private favKey = 'favorites';
+
+  private read(): Listing[] {
+    const raw = localStorage.getItem(this.key);
+    return raw ? JSON.parse(raw) as Listing[] : [];
+  }
+
+  private write(listings: Listing[]) {
+    localStorage.setItem(this.key, JSON.stringify(listings));
+  }
+
+  getAll(): Listing[] {
+    return this.read().filter(l => l.isActive);
+  }
+
+  getById(id: string): Listing | null {
+    return this.read().find(l => l.id === id) ?? null;
+  }
+
+  search(query?: string, category?: string, city?: string, favoritesOnly?: boolean): Listing[] {
+    let data = this.getAll();
+    if (favoritesOnly) {
+      const favs = this.getFavorites();
+      data = data.filter(l => favs.includes(l.id));
+    }
+    if (query) {
+      const q = query.toLowerCase();
+      data = data.filter(l =>
+        l.title.toLowerCase().includes(q) ||
+        l.description.toLowerCase().includes(q)
+      );
+    }
+    if (category) data = data.filter(l => l.category === category);
+    if (city) data = data.filter(l => l.city.toLowerCase() === city.toLowerCase());
+    return data.sort((a, b) => b.createdAt - a.createdAt);
+  }
+
+  create(partial: Omit<Listing, 'id' | 'createdAt' | 'views' | 'isActive'>): Listing {
+    const listing: Listing = {
+      ...partial,
+      id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+      createdAt: Date.now(),
+      views: 0,
+      isActive: true
+    };
+    const all = this.read();
+    all.push(listing);
+    this.write(all);
+    return listing;
+  }
+
+  incrementViews(id: string) {
+    const all = this.read();
+    const idx = all.findIndex(l => l.id === id);
+    if (idx >= 0) {
+      all[idx].views += 1;
+      this.write(all);
+    }
+  }
+
+  toggleFavorite(id: string) {
+    const favs = this.getFavorites();
+    const i = favs.indexOf(id);
+    if (i >= 0) favs.splice(i, 1);
+    else favs.push(id);
+    localStorage.setItem(this.favKey, JSON.stringify(favs));
+  }
+
+  getFavorites(): string[] {
+    const raw = localStorage.getItem(this.favKey);
+    return raw ? JSON.parse(raw) as string[] : [];
+  }
+
+  isFavorite(id: string): boolean {
+    return this.getFavorites().includes(id);
+  }
+
+  categories(): string[] {
+    return ['Imóveis', 'Autos', 'Eletrônicos', 'Móveis', 'Esportes', 'Moda', 'Serviços', 'Pets', 'Outros'];
+  }
+}

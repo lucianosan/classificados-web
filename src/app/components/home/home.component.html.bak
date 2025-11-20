@@ -1,0 +1,55 @@
+<div class="container-fluid px-0 mb-4">
+  <div class="header-carousel owl-carousel">
+    <div class="position-relative">
+      <img src="electro/img/carousel-1.png" class="img-fluid w-100" alt="Promoções">
+      <div class="position-absolute top-50 start-50 translate-middle text-center text-white">
+        <h2 class="fw-bold">Encontre o que você precisa</h2>
+        <p>Imóveis, autos, eletrônicos e muito mais</p>
+      </div>
+    </div>
+    <div class="position-relative">
+      <img src="electro/img/carousel-2.png" class="img-fluid w-100" alt="Ofertas">
+      <div class="position-absolute top-50 start-50 translate-middle text-center text-white">
+        <h2 class="fw-bold">Anuncie com facilidade</h2>
+        <p>Publique seu anúncio em minutos</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mb-3">
+  <div class="row g-2">
+    <div class="col-md-4">
+      <select class="form-select" [(ngModel)]="category">
+        <option value="">Todas categorias</option>
+        <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <input class="form-control" [(ngModel)]="city" placeholder="Cidade">
+    </div>
+    <div class="col-md-2 d-grid">
+      <button class="btn btn-primary" (click)="applyFilters()">Filtrar</button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row g-4">
+    <div class="col-sm-6 col-md-4 col-lg-3" *ngFor="let l of listings" (click)="view(l.id)">
+      <div class="card h-100 shadow-sm">
+        <img *ngIf="l.images?.length" [src]="l.images[0]" class="card-img-top" [alt]="l.title">
+        <div class="card-body">
+          <h6 class="card-title text-truncate">{{ l.title }}</h6>
+          <p class="card-text small text-muted mb-1">{{ l.city }} - {{ l.state }}</p>
+          <div class="fw-bold">R$ {{ l.price | number:'1.0-2' }}</div>
+        </div>
+        <div class="card-footer bg-white border-0 d-flex justify-content-between">
+          <button class="btn btn-outline-danger btn-sm" (click)="$event.stopPropagation(); toggleFav(l.id)">{{ isFav(l.id) ? 'Remover' : 'Favoritar' }}</button>
+          <span class="text-muted small">{{ l.views }} visitas</span>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!listings?.length" class="text-center text-muted py-5">Nenhum anúncio encontrado</div>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+<section class="login">
+  <h2>{{ mode === 'login' ? 'Entrar' : 'Criar conta' }}</h2>
+  <div class="alert alert-info" *ngIf="info">{{ info }}</div>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <input *ngIf="mode==='register'" formControlName="name" placeholder="Nome" />
+    <input formControlName="email" placeholder="Email" />
+    <input formControlName="password" type="password" placeholder="Senha" />
+    <div class="error" *ngIf="error">{{ error }}</div>
+    <button type="submit">{{ mode === 'login' ? 'Entrar' : 'Registrar' }}</button>
+  </form>
+  <button type="button" class="toggle" (click)="mode = mode==='login' ? 'register' : 'login'">
+    {{ mode === 'login' ? 'Criar uma conta' : 'Já tenho conta' }}
+  </button>
+</section>

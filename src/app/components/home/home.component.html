@@ -1,0 +1,62 @@
+<!-- hero removido: usamos apenas o carrossel do header -->
+
+<div class="container mb-3">
+  <div class="row g-2">
+    <div class="col-md-4">
+      <select class="form-select" [(ngModel)]="category">
+        <option value="">Todas categorias</option>
+        <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <input class="form-control" [(ngModel)]="city" placeholder="Cidade">
+    </div>
+    <div class="col-md-2 d-grid">
+      <button class="btn btn-primary" (click)="applyFilters()">Filtrar</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading" class="text-center py-3">
+  <div class="spinner-border text-primary" role="status"><span class="visually-hidden">Carregando...</span></div>
+</div>
+
+<div class="container">
+  <div class="row g-4">
+    <div class="col-sm-6 col-md-4 col-lg-3" *ngFor="let l of listings" (click)="view(l)">
+      <div class="card h-100 shadow-sm">
+        <img *ngIf="l.images?.length" [src]="l.images[0]" class="card-img-top" [alt]="l.title">
+        <div class="card-body">
+          <h6 class="card-title text-truncate">{{ l.title }}</h6>
+          <p class="card-text small text-muted mb-1">{{ l.city }} - {{ l.state }}</p>
+          <div class="fw-bold">R$ {{ l.price | number:'1.0-2' }}</div>
+        </div>
+        <div class="card-footer bg-white border-0 d-flex justify-content-between">
+          <button class="btn btn-outline-danger btn-sm" (click)="$event.stopPropagation(); toggleFav(l.id)">{{ isFav(l.id) ? 'Remover' : 'Favoritar' }}</button>
+          <span class="text-muted small">{{ l.views }} visitas</span>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!listings?.length" class="text-center text-muted py-5">Nenhum anúncio encontrado</div>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center mt-3" *ngIf="total > 0">
+    <div class="small text-muted">Página {{ page + 1 }} de {{ totalPages }} — Total {{ total }}</div>
+    <div class="d-flex gap-2">
+      <div class="input-group input-group-sm" style="width: 180px;">
+        <span class="input-group-text">Itens</span>
+        <select class="form-select" [(ngModel)]="size" (change)="setSize(size)">
+          <option *ngFor="let s of sizes" [value]="s">{{ s }}</option>
+        </select>
+      </div>
+      <div class="input-group input-group-sm" style="width: 180px;">
+        <input class="form-control" type="number" min="1" [max]="totalPages" [(ngModel)]="goto" placeholder="Página">
+        <button class="btn btn-outline-secondary" (click)="goToPageInput()">Ir</button>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-outline-secondary btn-sm" [disabled]="page===0" (click)="prevPage()">Anterior</button>
+        <button class="btn btn-outline-secondary btn-sm" [disabled]="page+1>=totalPages" (click)="nextPage()">Próxima</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,72 @@
+<section class="listing-form container my-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-sm">
+        <div class="card-header"><h5 class="mb-0">Anunciar</h5></div>
+        <div class="card-body">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="row g-3">
+              <div class="col-md-8">
+                <input class="form-control" formControlName="title" placeholder="Título"
+                  [class.is-invalid]="form.get('title')?.invalid && (form.get('title')?.dirty || form.get('title')?.touched)" />
+                <div class="invalid-feedback" *ngIf="form.get('title')?.errors">Informe um título válido</div>
+              </div>
+              <div class="col-md-4">
+                <input class="form-control" formControlName="price" type="number" placeholder="Preço"
+                  [class.is-invalid]="form.get('price')?.invalid && (form.get('price')?.dirty || form.get('price')?.touched)" />
+                <div class="invalid-feedback" *ngIf="form.get('price')?.errors">Informe um preço válido</div>
+              </div>
+              <div class="col-12">
+                <textarea class="form-control" formControlName="description" placeholder="Descrição" rows="4"
+                  [class.is-invalid]="form.get('description')?.invalid && (form.get('description')?.dirty || form.get('description')?.touched)"></textarea>
+                <div class="invalid-feedback" *ngIf="form.get('description')?.errors">Descreva o anúncio</div>
+              </div>
+              <div class="col-md-6">
+                <select class="form-select" formControlName="category"
+                  [class.is-invalid]="form.get('category')?.invalid && (form.get('category')?.dirty || form.get('category')?.touched)">
+                  <option value="">Categoria</option>
+                  <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
+                </select>
+                <div class="invalid-feedback" *ngIf="form.get('category')?.errors">Selecione a categoria</div>
+              </div>
+              <div class="col-md-3">
+                <select class="form-select" formControlName="state"
+                  [class.is-invalid]="form.get('state')?.invalid && (form.get('state')?.dirty || form.get('state')?.touched)">
+                  <option value="">Estado</option>
+                  <option *ngFor="let s of states" [value]="s.sigla">{{ s.nome }}</option>
+                </select>
+                <div class="invalid-feedback" *ngIf="form.get('state')?.errors">Selecione o estado</div>
+              </div>
+              <div class="col-md-3">
+                <select class="form-select" formControlName="city" [disabled]="!states.length || !(form.get('state')?.value)"
+                  [class.is-invalid]="form.get('city')?.invalid && (form.get('city')?.dirty || form.get('city')?.touched)">
+                  <option value="">Cidade</option>
+                  <option *ngFor="let c of cities" [value]="c.nome">{{ c.nome }}</option>
+                </select>
+                <div class="invalid-feedback" *ngIf="form.get('city')?.errors">Selecione a cidade</div>
+              </div>
+              <div class="col-md-6">
+                <input class="form-control" formControlName="contactPhone" placeholder="Telefone para contato (opcional)" />
+              </div>
+              <div class="col-12">
+                <div class="images">
+                  <label class="form-label">Imagens</label>
+                  <input class="form-control" type="file" (change)="onFilesSelected($event)" multiple />
+                  <div class="preview mt-2">
+                    <div class="img" *ngFor="let img of images; let i = index">
+                      <img [src]="img" class="img-thumbnail" />
+                      <button type="button" class="btn btn-sm btn-danger" (click)="removeImage(i)">Remover</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 text-end">
+                <button class="btn btn-primary" type="submit" [disabled]="form.invalid">Publicar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

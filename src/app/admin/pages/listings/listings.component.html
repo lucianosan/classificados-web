@@ -1,0 +1,38 @@
+<div class="container py-3">
+  <h2 class="h4 mb-3">Anúncios</h2>
+  <div class="row g-2 mb-2">
+    <div class="col-md-4">
+      <select class="form-select" [(ngModel)]="category" (change)="load()">
+        <option value="">Todas categorias</option>
+        <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
+      </select>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Categoria</th>
+          <th>Cidade</th>
+          <th>Estado</th>
+          <th>Preço</th>
+          <th>Visitas</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let i of items" (click)="view(i.id)" style="cursor:pointer;">
+          <td>{{ i.title }}</td>
+          <td>{{ i.category }}</td>
+          <td>{{ i.city }}</td>
+          <td>{{ i.state }}</td>
+          <td>R$ {{ i.price | number:'1.0-2' }}</td>
+          <td>{{ i.views }}</td>
+          <td class="text-end"><a class="btn btn-sm btn-outline-primary" (click)="$event.stopPropagation(); view(i.id)">Abrir</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
